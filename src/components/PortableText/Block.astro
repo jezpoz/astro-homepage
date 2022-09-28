@@ -1,0 +1,30 @@
+---
+import type { BlockProps } from "astro-portabletext/components";
+
+export type Props = BlockProps;
+
+const { node, index, isInline, ...attrs } = Astro.props;
+const styleIs = (style: string) => style === node.style;
+---
+
+{
+  styleIs("h1") ? (
+    <h1 class="text-6xl" {...attrs}><slot /></h1>
+  ) : styleIs("h2") ? (
+    <h2 class="text-5xl"{...attrs}><slot /></h2>
+  ) : styleIs("h3") ? (
+    <h3 class="text-4xl"{...attrs}><slot /></h3>
+  ) : styleIs("h4") ? (
+    <h4 class="text-3xl"{...attrs}><slot /></h4>
+  ) : styleIs("h5") ? (
+    <h5 class="text-2xl"{...attrs}><slot /></h5>
+  ) : styleIs("h6") ? (
+    <h6 class="text-xl"{...attrs}><slot /></h6>
+  ) : styleIs("blockquote") ? (
+    <blockquote {...attrs}><slot /></blockquote>
+  ) : styleIs("normal") ? (
+    <p class="text-lg" {...attrs}><slot /></p>
+  ) : (
+    <span>Unknown block</span>
+  )
+}

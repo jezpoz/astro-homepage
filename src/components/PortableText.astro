@@ -1,0 +1,15 @@
+---
+import { PortableText } from 'astro-portabletext';
+import Block from './PortableText/Block.astro';
+
+const PortableTextComponents = {
+  block: Block,
+}
+
+const { value } = Astro.props;
+---
+
+<PortableText
+  value={value}
+  components={PortableTextComponents}
+/>
