@@ -11,12 +11,12 @@ let data = await client.fetch(query);
 <BaseLayout>
   <Navbar />
   <main class="max-w-[1600px] mx-auto">
-    <div class="flex flex-col md:flex-row justify-between">
+    <div class="grid grid-cols-1 md:grid md:grid-cols-2 md:grid-auto-rows">
       <div class="p-8">
         <PortableText value={data.bio}/>
       </div>
-      <picture class="rounded p-8 w-full md:pt-16 md:w-[600px]">
-        <img class="rounded" src={imageBuilder.image(data.image).width(600).url()} width="600px" alt={data.image.alt}/>
+      <picture class="rounded p-8 w-full order-1">
+        <img class="rounded" src={imageBuilder.image(data.image).width(600).height(450).url()} width="600" height="450" alt={data.image.alt}/>
         <figcaption>{data.image.caption}</figcaption>
       </picture>
     </div>
