@@ -6,13 +6,11 @@ const query = '*[_type == "settings"][0]';
 let settings = await client.fetch(query);
 
 track({
-  id: 'page-show',
+  id: 'open-page',
   parameters: {
-    path: Astro.request.url,
-    locale: parameters.locale(),
+    path: parameters.path(),
     screenType: parameters.screenType(),
-    os: parameters.os(),
-    browser: parameters.browser(),
+    referrer: parameters.referrer()
   }
 });
 ---
