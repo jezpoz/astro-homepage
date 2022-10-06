@@ -9,7 +9,7 @@ const projects = await client.fetch('*[_type == "project"]{title, slug, mainImag
 <BaseLayout>
   <Navbar />
   <main class="max-w-[1600px] mx-auto">
-    <div class="grid grid-cols-4 grid-auto-rows gap-2">
+    <div class="px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 grid-auto-rows gap-2">
       {
         projects.map((project: any) => (
           <div class="flex flex-col p-4 rounded shadow hover:shadow-xl bg-slate-800">
