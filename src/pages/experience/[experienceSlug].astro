@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import { client } from "../../lib/sanity-client";
+import PortableText from '../../components/PortableText.astro';
+
+const { experienceSlug } = Astro.params;
+const experience = await client.fetch(
+  '*[_type == "experience" && slug.current == $experienceSlug][0]',
+  { experienceSlug }
+);
+---
+
+<BaseLayout>
+  <Navbar />
+  <main class="max-w-[1600px] mx-auto">
+    <PortableText value={experience.body} />
+  </main>
+</BaseLayout>

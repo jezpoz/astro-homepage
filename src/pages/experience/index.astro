@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import { client, imageBuilder } from "../../lib/sanity-client";
+
+const experiences = await client.fetch(
+  '*[_type == "experience"]{title, slug, position, mainImage}'
+);
+---
+
+<BaseLayout>
+  <Navbar />
+  <main class="max-w-[1600px] mx-auto">
+    <div class="grid grid-cols-4 grid-auto-rows gap-2">
+      {
+        experiences.map((experience: any) => (
+          <div class="flex flex-col p-4 rounded shadow hover:shadow-xl bg-slate-800">
+            <a href={`/experience/${experience.slug.current}`}>
+              <figure class="center p-1 mb-4 bg-slate-400 rounded">
+                <img
+                  src={imageBuilder
+                    .image(experience.mainImage)
+                    .width(300)
+                    .height(200)
+                    .url()}
+                  width="300"
+                  height="200"
+                  alt={experience.mainImage.alt}
+                />
+              </figure>
+              <h2 class="text-2xl">{experience.title}</h2>
+              <span class="text-base opacity-80">{experience.position}</span>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>

@@ -4,13 +4,10 @@ import { track, parameters } from '../lib/insights-client';
 
 const query = '*[_type == "settings"][0]';
 let settings = await client.fetch(query);
-
 track({
   id: 'open-page',
   parameters: {
-    path: parameters.path(),
-    screenType: parameters.screenType(),
-    referrer: parameters.referrer()
+    path: Astro.request.url,
   }
 });
 ---

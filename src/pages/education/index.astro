@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import { client, imageBuilder } from "../../lib/sanity-client";
+
+const education = await client.fetch(
+  '*[_type == "education"]{title, slug, mainImage}'
+);
+---
+
+<BaseLayout>
+  <Navbar />
+  <main class="max-w-[1600px] mx-auto">
+    <div class="grid grid-cols-4 grid-auto-rows gap-2">
+      {
+        education.map((school: any) => (
+          <div class="flex flex-col p-4 rounded shadow hover:shadow-xl bg-slate-800">
+            <a href={`/education/${school.slug.current}`}>
+              <figure class="center mb-4 bg-slate-400 rounded">
+                <img
+                  class="h-full rounded w-full"
+                  src={imageBuilder
+                    .image(school.mainImage)
+                    .width(300)
+                    .height(200)
+                    .url()}
+                  width="300"
+                  height="200"
+                  alt={school.mainImage.alt}
+                />
+              </figure>
+              <h2 class="text-2xl">{school.title}</h2>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>
