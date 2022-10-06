@@ -13,17 +13,21 @@ track({
 ---
 <!DOCTYPE html>
 <html lang="en">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta charset="UTF-8">
-  <title>{settings.title}</title>
-  <meta name="description" content={settings.description} >
-  <meta name="keywords" content={settings.keywords.join(', ')}>
-  <meta name="author" content="Jesper Førisdahl">
-  <style>
-    @-ms-viewport{
-      width: device-width;
-    }
-  </style>
+  <head>
+    <script defer src="https://cdn.counter.dev/script.js" data-id="8c2b0e6f-a6e7-4302-a0ec-e85092f26d4a" data-utcoffset="2"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <title>{settings.title}</title>
+    <meta name="description" content={settings.description} >
+    <meta name="keywords" content={settings.keywords.join(', ')}>
+    <meta name="author" content="Jesper Førisdahl">
+    <style>
+      @-ms-viewport{
+        width: device-width;
+      }
+    </style>
+  </head>
+  
   <body class="bg-gray-900 text-slate-200">
     <slot></slot>
   </body>
