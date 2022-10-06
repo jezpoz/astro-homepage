@@ -1,8 +1,20 @@
 ---
 import { client } from '../lib/sanity-client';
+import { track, parameters } from '../lib/insights-client';
 
 const query = '*[_type == "settings"][0]';
 let settings = await client.fetch(query);
+
+track({
+  id: 'page-show',
+  parameters: {
+    path: Astro.request.url,
+    locale: parameters.locale(),
+    screenType: parameters.screenType(),
+    os: parameters.os(),
+    browser: parameters.browser(),
+  }
+});
 ---
 <!DOCTYPE html>
 <html lang="en">

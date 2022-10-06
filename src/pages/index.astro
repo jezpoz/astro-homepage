@@ -16,7 +16,7 @@ let data = await client.fetch(query);
         <PortableText value={data.bio}/>
       </div>
       <picture class="rounded p-8 w-full order-1">
-        <img class="rounded" src={imageBuilder.image(data.image).width(600).height(450).url()} width="600" height="450" alt={data.image.alt}/>
+        <img class="rounded" src={imageBuilder.image(data.image).width(1200).height(900).url()} width="600" height="450" alt={data.image.alt}/>
         <figcaption>{data.image.caption}</figcaption>
       </picture>
     </div>
