@@ -37,7 +37,7 @@
 <script>
   document.getElementById('navbar-toggle')?.addEventListener('click', toggleNavbar);
 
-  function toggleNavbar(e) {
+  function toggleNavbar(e: any) {
     const {navbarId} = e.currentTarget.dataset;
     document.getElementById(navbarId)?.classList.toggle('hidden');
   }
