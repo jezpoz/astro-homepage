@@ -1,9 +1,13 @@
 ---
 import { PortableText } from 'astro-portabletext';
 import Block from './PortableText/Block.astro';
+import List from './PortableText/List.astro';
+import Mark from './PortableText/Mark.astro';
 
 const PortableTextComponents = {
   block: Block,
+  list: List,
+  mark: Mark,
 }
 
 const { value } = Astro.props;

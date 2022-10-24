@@ -1,0 +1,16 @@
+---
+import type { ListProps } from "astro-portabletext/components";
+
+export type Props = ListProps;
+
+const { node, index, isInline, ...attrs } = Astro.props;
+const styleIs = (style: string) => style === 'ul';
+---
+
+{
+  styleIs("ul") ? (
+    <ul class="list-disc pl-4" {...attrs}><slot /></ul>
+  ) : (
+    <span>Unknown block</span>
+  )
+}

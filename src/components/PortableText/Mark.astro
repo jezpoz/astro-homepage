@@ -1,0 +1,27 @@
+---
+import type { MarkProps } from "astro-portabletext/components";
+
+export type Props = MarkProps;
+
+const { node, index, isInline, ...attrs } = Astro.props;
+const styleIs = (style: string) => style === node.markType;
+---
+{
+  styleIs('link') ? (
+    <a class="underline" href={node?.markDef?.href ? node.markDef.href : '#'} {...attrs}><slot /></a>
+  ) : styleIs('code') ? (
+    <code {...attrs}><slot /></code>
+  ) : styleIs('em') ? (
+    <em {...attrs}><slot /></em>
+  ) : styleIs('strike-through') ? (
+    <del {...attrs}><slot /></del>
+  ) : styleIs('strong') ? (
+    <strong {...attrs}><slot /></strong>
+  ) : styleIs('underline') ? (
+    <span class="underline" {...attrs}><slot/></span>
+  ) : (
+    <span>Unknown</span>
+  )
+}
+<span>Something here</span>
+
