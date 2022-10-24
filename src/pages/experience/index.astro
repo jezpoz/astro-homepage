@@ -16,15 +16,16 @@ const experiences = await client.fetch(
         experiences.map((experience: any) => (
           <div class="flex flex-col p-4 rounded shadow hover:shadow-xl bg-slate-800">
             <a href={`/experience/${experience.slug.current}`}>
-              <figure class="center p-1 mb-4 bg-slate-400 rounded">
+              <figure class="flex flex-col justify-center center p-1 mb-4 bg-slate-400 rounded h-24">
                 <img
+                  class="max-h-full object-contain center"
                   src={imageBuilder
                     .image(experience.mainImage)
-                    .width(300)
-                    .height(200)
+                    .width(600)
+                    .height(300)
                     .url()}
-                  width="300"
-                  height="200"
+                  width="600"
+                  height="300"
                   alt={experience.mainImage.alt}
                 />
               </figure>

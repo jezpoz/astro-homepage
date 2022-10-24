@@ -11,6 +11,8 @@ const project = await client.fetch('*[_type == "project" && slug.current == $pro
 <BaseLayout>
   <Navbar />
   <main class="max-w-[1600px] mx-auto">
-    <PortableText value={project.body} />
+    <div class="p-8">
+      <PortableText value={project.body} />
+    </div>
   </main>
 </BaseLayout>

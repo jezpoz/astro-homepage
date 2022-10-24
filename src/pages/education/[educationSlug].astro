@@ -14,6 +14,8 @@ const education = await client.fetch(
 <BaseLayout>
   <Navbar />
   <main class="max-w-[1600px] mx-auto">
-    <PortableText value={education.body} />
+    <div class="p-8">
+      <PortableText value={education.body} />
+    </div>
   </main>
 </BaseLayout>
