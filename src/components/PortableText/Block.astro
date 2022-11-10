@@ -23,7 +23,7 @@ const styleIs = (style: string) => style === node.style;
   ) : styleIs("blockquote") ? (
     <blockquote {...attrs}><slot /></blockquote>
   ) : styleIs("normal") ? (
-    <p class="text-xl my-3 font-black" {...attrs}><slot /></p>
+    <p class="text-2xl my-3 font-black tracking-wider" {...attrs}><slot /></p>
   ) : (
     <span>Unknown block</span>
   )

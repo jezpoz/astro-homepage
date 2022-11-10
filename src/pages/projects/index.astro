@@ -2,36 +2,93 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Navbar from '../../components/Navbar.astro';
 import { client, imageBuilder } from '../../lib/sanity-client';
+import PortableText from '../../components/PortableText.astro';
 
-const projects = await client.fetch('*[_type == "project"]{title, slug, mainImage}');
+const pageQuery =
+  `*[_type == "page" && slug.current == "projects"]{
+    title,
+    body[]{
+      heading,
+      description,
+      backgroundImage,
+      ctas[]{
+        externalLink,
+        reference->{
+          _type,
+          slug
+        },
+        url,
+        text,
+      }
+    }
+  }[0]
+`;
+const projectQuery = `
+  *[_type == "project"] {
+    title,
+    slug,
+    mainImage,
+  }
+`;
+
+const page = await client.fetch(pageQuery);
+const projects = await client.fetch(projectQuery);
 ---
 
-<BaseLayout>
+<BaseLayout pageTitle={page?.title}>
   <Navbar />
-  <main class="max-w-[1600px] mx-auto">
-    <div class="px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 grid-auto-rows gap-2">
-      {
-        projects.map((project: any) => (
-          <div class="flex flex-col p-4 rounded shadow hover:shadow-xl bg-slate-800">
-            <a href={`/projects/${project.slug.current}`}>
-              <figure class="flex flex-col justify-center center p-1 mb-4 bg-slate-400 rounded h-24">
-                <img
-                  class="max-h-full object-contain center"
-                  src={imageBuilder
-                    .image(project.mainImage)
-                    .width(600)
-                    .height(300)
-                    .url()}
-                  width="600"
-                  height="300"
-                  alt={project.mainImage.alt}
-                />
-              </figure>
-              <h2 class="text-2xl">{project.title}</h2>
-            </a>
+  <main>
+    {page.body?.map((section: any) => 
+      <section class="w-full h-[75vh] saturation-25" style={{
+        backgroundImage: `url(${imageBuilder.image(section.backgroundImage).url()})`,
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}>
+        <div class="max-w-[1600px] h-full w-1/2 px-4 md:px-16 flex flex-col items-start justify-center">
+          <h1 class="text-5xl font-black mix-blend-plus-lighter tracking-wider">{section.heading}</h1>
+          <div class="mix-blend-plus-lighter">
+            <PortableText value={section.description} />
           </div>
-        ))
-      }
+          {section.ctas && (
+            <div class="flex flex-row gap-2">
+              {section.ctas.map((cta: any) => (
+                <div class="mix-blend-plus-lighter">
+                  {cta.externalLink && <a class="text-2xl font-black underline tracking-wider hover:text-web3-pink" href={cta.url} target="_blank" rel="noreferrer">{cta.text}</a>}
+                  {!cta.externalLink && <a class="text-2xl font-black underline tracking-wider hover:text-web3-pink" href={cta.reference._type === 'page' ? `/${cta.reference.slug.current}` : ''}>{cta.text}</a>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+    <div class="max-w-[1600px] mx-auto px-4 px-4 md:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 grid-auto-rows">
+        {
+          projects.map((project: any) => (
+            <div class="flex flex-col p-4 rounded shadow hover:shadow-xl bg-slate-800">
+              <a href={`/projects/${project.slug.current}`}>
+                <figure class="flex flex-col justify-center center p-1 mb-4 bg-slate-400 rounded h-24">
+                  <img
+                    class="max-h-full object-contain center"
+                    src={imageBuilder
+                      .image(project.mainImage)
+                      .width(600)
+                      .height(300)
+                      .url()}
+                    width="600"
+                    height="300"
+                    alt={project.mainImage.alt}
+                  />
+                </figure>
+                <h2 class="text-3xl font-black tracking-wider">{project.title}</h2>
+              </a>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </main>
 </BaseLayout>

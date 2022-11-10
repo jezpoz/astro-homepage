@@ -6,30 +6,63 @@ import PortableText from "../components/PortableText.astro";
 
 const { page } = Astro.params;
 const query =
-  '*[_type == "page" && slug.current == $page][0] {title,body}';
+  `*[_type == "page" && slug.current == $page]{
+    title,
+    body[]{
+      heading,
+      description,
+      backgroundImage,
+      ctas[]{
+        externalLink,
+        reference->{
+          _type,
+          slug
+        },
+        url,
+        text,
+      }
+    }
+  }[0]`;
 let data = await client.fetch(query, { page });
-console.log(data);
+if (!data) {
+  console.log('lol 404')
+}
 ---
-
-<BaseLayout pageTitle={data.title}>
+<BaseLayout pageTitle={data?.title}>
   <Navbar />
   <main>
-    {data.body.map((section: any) => 
-      <section class="w-full h-[75vh]" style={{
+    {data?.body?.map((section: any, index: number) => 
+      <section class="relative w-full min-h-[100vh] h-full py-16 flex flex-col items-start justify-center" style={{
         backgroundImage: `url(${imageBuilder.image(section.backgroundImage).url()})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
       }}>
-        <div class="max-w-[1600px] h-full px-4 md:px-0 mx-auto flex flex-col items-start justify-center">
-          <h1 class="text-5xl font-black mix-blend-lighten">{section.heading}</h1>
-          <div class="mix-blend-lighten">
+        <div class="max-w-[1600px] h-full px-4 md:px-16 mx-auto flex flex-col items-start justify-center">
+          <h1 class="text-5xl font-black mix-blend-plus-lighter tracking-wider">{section.heading}</h1>
+          <div class="mix-blend-plus-lighter">
             <PortableText value={section.description} />
           </div>
-          <div class="">
-          </div>
+          {section.ctas && (
+            <div class="flex flex-row gap-2">
+              {section.ctas.map((cta: any) => (
+                <div class="mix-blend-plus-lighter">
+                  {cta.externalLink && <a class="text-2xl font-black underline" href={cta.url} target="_blank" rel="noreferrer">{cta.text}</a>}
+                  {!cta.externalLink && <a class="text-2xl font-black underline" href={
+                    cta.reference._type === 'page' ?
+                    `/${cta.reference.slug?.current || ''}`
+                    : ''}>{cta.text}</a>}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+        {index != (data.body?.length - 1) && (
+          <div class="absolute bottom-0 right-[50%]">
+            <i class="text-3xl h-10 w-10 fa-solid fa-circle-arrow-down"></i>
+          </div>
+        )}
       </section>
     )}
   </main>
