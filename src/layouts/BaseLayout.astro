@@ -3,14 +3,16 @@ import { client } from '../lib/sanity-client';
 
 const query = '*[_type == "settings"][0]';
 let settings = await client.fetch(query);
+
+const { pageTitle } = Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script defer src="https://cdn.counter.dev/script.js" data-id="8c2b0e6f-a6e7-4302-a0ec-e85092f26d4a" data-utcoffset="2"></script>
+    <!--<script defer src="https://cdn.counter.dev/script.js" data-id="8c2b0e6f-a6e7-4302-a0ec-e85092f26d4a" data-utcoffset="2"></script>-->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8">
-    <title>{settings.title}</title>
+    <title>{pageTitle} | {settings.title}</title>
     <meta name="description" content={settings.description} >
     <meta name="keywords" content={settings.keywords.join(', ')}>
     <meta name="author" content="Jesper Førisdahl">
@@ -19,10 +21,39 @@ let settings = await client.fetch(query);
         width: device-width;
       }
     </style>
-    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c35cbe87-9f7c-47bb-8218-8e0e079372d4";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+    <script src="https://kit.fontawesome.com/b5e8dde367.js" crossorigin="anonymous"></script>
   </head>
   
   <body class="bg-gray-900 text-slate-200">
     <slot></slot>
   </body>
+  <footer class="w-full h-[25vh] contrast-50">
+    <div class="max-w-[1600px] mx-auto flex flex-col items-start justify-baseline px-4 pb-4 md:px-0">
+      <h1 class="pt-16 pb-4 text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-web3-blue to-web3-pink drop-shadow drop-shadow-white drop-shadow">
+        Seems like you found the bottom of the page.
+      </h1>
+      <div class="flex flex-col">
+        <p class="text-xl font-black">
+          Feel free to contact me on any of these platforms if you want some more of me.
+        </p>
+        <div class="flex flex-row py-4 gap-2">
+          <a href="https://www.facebook.com/Jezpoz/" target="_blank" rel="noreferrer">
+            <i class="h-10 w-10 text-3xl fa-brands fa-facebook hover:text-web3-pink"></i>
+          </a>
+          <a href="https://www.instagram.com/jezpoz/" target="_blank" rel="noreferrer">
+            <i class="h-10 w-10 text-3xl fa-brands fa-instagram hover:text-web3-pink"></i>
+          </a>
+          <a href="https://www.twitch.tv/jezpoz" target="_blank" rel="noreferrer">
+            <i class="h-10 w-10 text-3xl fa-brands fa-twitch hover:text-web3-pink"></i>
+          </a>
+          <a href="https://twitter.com/jezpoz" target="_blank" rel="noreferrer">
+            <i class="h-10 w-10 text-3xl fa-brands fa-twitter hover:text-web3-pink"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/jesperforisdahl/" target="_blank" rel="noreferrer">
+            <i class="h-10 w-10 text-3xl fa-brands fa-linkedin hover:text-web3-pink"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </html>

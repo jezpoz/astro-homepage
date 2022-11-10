@@ -4,9 +4,10 @@ import Navbar from "../components/Navbar.astro";
 import { client, imageBuilder } from "../lib/sanity-client";
 import PortableText from "../components/PortableText.astro";
 
+const { page } = Astro.params;
 const query =
-  '*[_type == "page" && slug.current == "/"][0] {title,body}';
-let data = await client.fetch(query);
+  '*[_type == "page" && slug.current == $page][0] {title,body}';
+let data = await client.fetch(query, { page });
 console.log(data);
 ---
 
@@ -14,7 +15,7 @@ console.log(data);
   <Navbar />
   <main>
     {data.body.map((section: any) => 
-      <section class="w-full h-[75vh] saturation-25" style={{
+      <section class="w-full h-[75vh]" style={{
         backgroundImage: `url(${imageBuilder.image(section.backgroundImage).url()})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
@@ -26,11 +27,8 @@ console.log(data);
           <div class="mix-blend-lighten">
             <PortableText value={section.description} />
           </div>
-          {section.ctas && (
-            <div class="">
-              CTAs
-            </div>
-          )}
+          <div class="">
+          </div>
         </div>
       </section>
     )}
