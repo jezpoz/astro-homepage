@@ -30,12 +30,8 @@ let data = await client.fetch(query);
   <Navbar />
   <main>
     {data.body?.map((section: any, index: number) => 
-      <section class="relative w-full min-h-[75vh] h-full flex flex-col items-start justify-center" style={{
-        backgroundImage: `url(${imageBuilder.image(section.backgroundImage).url()})`,
-        backgroundAttachment: 'fixed',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
+      <section class="bg-scroll md:bg-fixed bg-center bg-no-repeat bg-cover relative w-full min-h-[100vh] h-full py-16 flex flex-col items-start justify-center" style={{
+        backgroundImage: `url('${imageBuilder.image(section.backgroundImage).url()}')`
       }}>
         <div class="max-w-[1600px] h-full w-full xl:w-1/2 px-4 md:px-16 flex flex-col items-start justify-center">
           <h1 class="text-5xl font-black mix-blend-plus-lighter tracking-wider">{section.heading}</h1>
